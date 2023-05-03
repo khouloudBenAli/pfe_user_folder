@@ -2,14 +2,14 @@
 include("db_connect.php");
 
 $response = array();
-$req = mysqli_query($cnx, "SELECT Id , name , lastname FROM student s 
+$req = mysqli_query($cnx, "SELECT age , name , lastname FROM student s 
                             where id_classe='5A'    ");
 
 if (mysqli_num_rows($req) > 0) {
     $response["student"] = array();
     while ($cur = mysqli_fetch_array($req)) {
         $tmp = array();
-        $tmp["Id"] = $cur["Id"];
+        $tmp["age"] = $cur["age"];
         $tmp["name"] = $cur["name"];
         $tmp["lastname"] = $cur["lastname"];
         array_push($response["student"], $tmp);

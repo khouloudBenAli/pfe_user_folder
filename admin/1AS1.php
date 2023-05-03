@@ -2,7 +2,7 @@
 include("db_connect.php");
 
 $response=array() ;
-$req=mysqli_query($cnx," SELECT s.name , ps.id_student
+$req=mysqli_query($cnx," SELECT s.name ,sc.jour
 
 FROM presence_student ps
 
@@ -34,7 +34,8 @@ if (mysqli_num_rows($req) > 0)
     while($cur=mysqli_fetch_array($req))
     {
         $tmp["name"]=$cur["name"];
-        $tmp["id_student"]=$cur["id_student"];
+        $tmp["jour"]=$cur["jour"];
+
         
         array_push($response["lst"],$tmp);
     }
