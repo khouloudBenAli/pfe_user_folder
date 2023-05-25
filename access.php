@@ -17,35 +17,34 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo "MACresult: " . $MACresult;
 
         try {
-            $id_carte = $UIDresult; /
-            $id_salle = "A_TD1";
-            $id_prof = "3000";
-
-                // Prepare the query to update the acces_historique table
-                $stmt = $conn->prepare("UPDATE acces_historique 
-                                       SET id_prof = :id_prof, id_salle = :id_salle, time = :now 
-                                       WHERE id_carte = :id_carte");
-
-                // Bind the values of the variables to the named parameters in the query
+            $id_carte = $UIDresult; 
+            $id_salle = 'A_TD1';
+            $now = date('Y-m-d H:i:s');
+        
+            $stmt = $conn->prepare("SELECT id_prof FROM professeur WHERE id_carte = :id_carte");
+            $stmt->bindParam(':id_carte', $id_carte);
+            $stmt->execute();
+            $result = $stmt->fetch(PDO::FETCH_ASSOC);
+        
+            if ($result) {
+                $id_prof = $result['id_prof'];
+        
+                $stmt = $conn->prepare("INSERT INTO acces_historique (id_prof, id_salle, time) 
+                                       VALUES (:id_prof, :id_salle, :now)");
                 $stmt->bindParam(':id_prof', $id_prof);
                 $stmt->bindParam(':id_salle', $id_salle);
                 $stmt->bindParam(':now', $now);
-               // $stmt->bindParam(':id_carte', $id_carte);
-                $stmt->bindParam(':id_carte', $id_carte);
-                // Set the value for $now variable
-                $now = date('Y-m-d H:i:s');
-
-                // Execute the prepared query
                 $stmt->execute();
-
-                echo "Update successful";
-            
-            } catch (PDOException $e) {
-                echo "Error: " . $e->getMessage();
+        
+                echo "Insertion successful";
+            } else {
+                echo "No Data Found";
             }
+        } catch (PDOException $e) {
+            echo "Error: " . $e->getMessage();
+        }
     }    
 }
-
 
 $db->disconnect();
 ?>
