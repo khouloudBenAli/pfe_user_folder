@@ -4,7 +4,7 @@
 
     private $host= 'localhost';
     private $user= 'root';
-    private $password= '';
+    private $password= 'root2023*';
     private $database= 'school';
     private $conn= null;
 

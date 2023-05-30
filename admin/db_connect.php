@@ -1,5 +1,5 @@
 <?php
-$cnx=mysqli_connect("localhost","root","");
+$cnx=mysqli_connect("localhost","root","root2023*");
 if (!$cnx)
 {
 

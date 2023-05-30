@@ -3,7 +3,7 @@
 // Establish a connection to the MySQL database
 $servername = "localhost";
 $username = "root";
-$password = "";
+$password = "root2023*";
 $dbname = "school";
 
 $conn = mysqli_connect($servername, $username, $password, $dbname);
