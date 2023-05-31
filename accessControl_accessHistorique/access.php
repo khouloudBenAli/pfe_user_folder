@@ -1,7 +1,7 @@
 <?php
 
 require_once 'database.php';
-$db = new database('localhost', 'root', '', 'school');
+$db = new database('localhost', 'root', 'root2023*', 'school');
 $conn = $db->connect();
 
 $UIDresult = "";
