@@ -6,21 +6,26 @@ if (isset($_GET['id_prof'])) {
     $id_prof = $_GET['id_prof'];
 
     $response = array();
-    $req = mysqli_query($cnx, "SELECT * FROM presence_student ps
-                                INNER JOIN seance s
-                                ON ps.id_seance = s.id_seance
-                                INNER JOIN prof_seance sp
-                                ON s.id_seance = sp.id_seance
+    $req = mysqli_query($cnx, "SELECT st.name , st.lastname , ps.status_student ,ps.jour , s.num_seance
+                                FROM student st 
+                                INNER JOIN presence_student ps on st.Id = ps.id_student
                                 
-                                WHERE sp.id_prof = $id_prof");
+                                INNER JOIN seance s ON ps.id_seance = s.id_seance
+                                
+                                INNER JOIN prof_seance sp ON s.id_seance = sp.id_seance
+                                
+                                WHERE sp.id_prof =$id_prof ");
 
     if (mysqli_num_rows($req) > 0) {
         $response["student"] = array();
         while ($cur = mysqli_fetch_array($req)) {
             $tmp = array();
-            $tmp["id_student"] = $cur["id_student"];
-            $tmp["id_seance"] = $cur["id_seance"];
+            $tmp["name"] = $cur["name"];
+            $tmp["lastname"] = $cur["lastname"];
             $tmp["status_student"] = $cur["status_student"];
+            $tmp["num_seance"] = $cur["num_seance"];
+            $tmp["jour"] = $cur["jour"];
+
             array_push($response["student"], $tmp);
         }
         $response["success"] = "1";

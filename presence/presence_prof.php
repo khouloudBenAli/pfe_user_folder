@@ -5,7 +5,13 @@ if (isset($_GET['id_prof'])) {
     $id_prof = $_GET['id_prof'];
 
     $response=array() ;
-    $req = mysqli_query($cnx, "SELECT * FROM presence_prof where id_prof = $id_prof  " );
+    $req = mysqli_query($cnx, "SELECT p.full_name, pp.status_prof, pp.jour, s.num_seance
+                                FROM professeur p
+                                INNER JOIN presence_prof pp on p.id_prof = pp.id_prof
+                                                                
+                                INNER JOIN seance s ON pp.id_seance = s.id_seance
+                                                                                                
+                                WHERE pp.id_prof = $id_prof " );
 
 
     if (mysqli_num_rows($req) > 0)
@@ -14,9 +20,11 @@ if (isset($_GET['id_prof'])) {
         $response["prof"]=array();
         while($cur=mysqli_fetch_array($req))
         {
-            $tmp["id_prof"]=$cur["id_prof"];
-            $tmp["id_seance"]=$cur["id_seance"];
-            $tmp["status_prof"]=$cur["status_prof"];
+            $tmp["full_name"]   =$cur["full_name"];
+            $tmp["status_prof"] =$cur["status_prof"];
+            $tmp["jour"]        =$cur["jour"];
+            $tmp["num_seance"]  =$cur["num_seance"];
+
         
 
             array_push($response["prof"],$tmp);
