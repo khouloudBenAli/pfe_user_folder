@@ -6,15 +6,12 @@ if (isset($_GET['id_prof'])) {
     $id_prof = $_GET['id_prof'];
 
     $response = array();
-    $req = mysqli_query($cnx, "SELECT st.name , st.lastname , ps.status_student ,ps.jour , s.num_seance
+    $req = mysqli_query($cnx, " SELECT DISTINCT st.name , st.lastname , ps.jour , ps.status_student , e.num_seance , e.id_classe
                                 FROM student st 
-                                INNER JOIN presence_student ps on st.Id = ps.id_student
-                                
-                                INNER JOIN seance s ON ps.id_seance = s.id_seance
-                                
-                                INNER JOIN prof_seance sp ON s.id_seance = sp.id_seance
-                                
-                                WHERE sp.id_prof =$id_prof ");
+                                INNER JOIN presence_student ps ON st.Id = ps.id_student
+                                INNER JOIN emploi e ON ps.id_emploi = e.id_emploi
+                                WHERE e.id_prof = $id_prof 
+                                ORDER BY  ps.jour = CURRENT_DATE() DESC  ");
 
     if (mysqli_num_rows($req) > 0) {
         $response["student"] = array();
@@ -24,7 +21,9 @@ if (isset($_GET['id_prof'])) {
             $tmp["lastname"] = $cur["lastname"];
             $tmp["status_student"] = $cur["status_student"];
             $tmp["num_seance"] = $cur["num_seance"];
+            $tmp["id_classe"] = $cur["id_classe"];
             $tmp["jour"] = $cur["jour"];
+
 
             array_push($response["student"], $tmp);
         }

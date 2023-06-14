@@ -5,13 +5,17 @@ if (isset($_GET['id_prof'])) {
     $id_prof = $_GET['id_prof'];
 
     $response=array() ;
-    $req = mysqli_query($cnx, "SELECT p.full_name, pp.status_prof, pp.jour, s.num_seance
+    $req = mysqli_query($cnx, "SELECT p.full_name, pp.status_prof, pp.jour, e.num_seance
                                 FROM professeur p
-                                INNER JOIN presence_prof pp on p.id_prof = pp.id_prof
+
+                                INNER JOIN presence_prof pp 
+                                on p.id_prof = pp.id_prof
                                                                 
-                                INNER JOIN seance s ON pp.id_seance = s.id_seance
+                                inner join emploi e
+                                on pp.id_emploi = e.id_emploi
                                                                                                 
-                                WHERE pp.id_prof = $id_prof " );
+                                WHERE pp.id_prof = $id_prof 
+                                ORDER BY pp.jour DESC " );
 
 
     if (mysqli_num_rows($req) > 0)

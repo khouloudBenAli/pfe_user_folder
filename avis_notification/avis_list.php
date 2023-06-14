@@ -3,7 +3,8 @@ include ("db_connect.php");
 
 $response=array() ;
 $req = mysqli_query($cnx, "SELECT avis , date_avis
-                           From avis_notification  " );
+                           From avis_notification 
+                           order by  date_avis desc " );
 
 
 if (mysqli_num_rows($req) > 0)

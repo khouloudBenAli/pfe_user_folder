@@ -2,13 +2,13 @@
 include ("db_connect.php");
 
 $response=array() ;
-$req = mysqli_query($cnx, "SELECT p.full_name , s.num_seance , pf.status_prof , pf.jour
+$req = mysqli_query($cnx, "SELECT p.full_name , e.num_seance , pf.status_prof , pf.jour
                             FROM presence_prof  pf
 
-                            inner join 
-                            seance s 
+                            inner join
+                            emploi e
                             on
-                            s.id_seance=pf.id_seance
+                            pf.id_emploi = e.id_emploi
 
                             inner join 
                             professeur p 

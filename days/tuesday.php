@@ -10,11 +10,9 @@ if (isset($_GET['id_prof'])) {
     // Select data from the emploi table with the specified conditions
     $select_query = "SELECT DISTINCT e.id_emploi, e.id_prof, e.id_classe, e.salle, e.num_seance
     FROM emploi e
-    JOIN prof_seance ps ON e.id_prof = ps.id_prof
-    JOIN seance s ON ps.id_seance = s.id_seance
-    JOIN seance_classe sc ON s.id_seance = sc.id_seance
-    JOIN salle_seance ss ON s.id_seance = ss.id_seance
-    WHERE ps.id_prof = '3000' AND ps.jour = 'tuesday' ";
+    inner join professeur p ON e.id_prof = p.id_prof 
+    WHERE p.id_prof = $id_prof 
+    AND e.jour = 'thuesday' ";
 
 
     $result = mysqli_query($cnx, $select_query);

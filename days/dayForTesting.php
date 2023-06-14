@@ -3,17 +3,14 @@ include("db_connect.php");
 
 $response = array();
 
-// Check if the id_prof parameter is set
-if (isset($_GET['id_prof'])) {
-    $id_prof = $_GET['id_prof'];
+
 
     // Select data from the emploi table with the specified conditions
     $select_query = "SELECT DISTINCT e.id_emploi, e.id_prof, e.id_classe, e.salle, e.num_seance
-    FROM emploi e
+     FROM emploi e
     inner join professeur p ON e.id_prof = p.id_prof 
-    WHERE p.id_prof = $id_prof 
-    AND e.jour = 'monday' ";
-
+    where p.id_prof = '3000' 
+    AND e.jour = 'thuesday'"; 
 
     $result = mysqli_query($cnx, $select_query);
 
@@ -39,9 +36,5 @@ if (isset($_GET['id_prof'])) {
         $response["message"] = "no data found!";
         echo json_encode($response);
     }
-} else {
-    $response["success"] = 0;
-    $response["message"] = "id_prof parameter not set!";
-    echo json_encode($response);
-}
+
 ?>

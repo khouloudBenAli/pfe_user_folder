@@ -2,30 +2,16 @@
 include("db_connect.php");
 
 $response=array() ;
-$req=mysqli_query($cnx," SELECT s.name , ps.id_student
+$req=mysqli_query($cnx," SELECT st.name, st.lastname, ps.jour
 
-FROM presence_student ps
+                        FROM student st 
+                        INNER JOIN presence_student ps ON st.Id = ps.id_student
 
-INNER JOIN 
-seance_classe sc 
-ON 
-sc.id_seance = ps.id_seance
+                        INNER JOIN emploi e ON ps.id_emploi = e.id_emploi
 
-INNER JOIN 
-classe cl 
-ON 
-cl.id_classe = sc.id_classe
-
-INNER JOIN 
-student s
- ON 
- ps.id_student = s.Id
-
-where sc.jour = CURDATE() 
-AND cl.id_classe='1A'
-AND sc.id_seance=2222
-
- " );
+                        where ps.jour = CURDATE() 
+                        AND st.id_classe = '3A'
+                        AND e.num_seance = 6");
 
 if (mysqli_num_rows($req) > 0)
 {
@@ -34,7 +20,8 @@ if (mysqli_num_rows($req) > 0)
     while($cur=mysqli_fetch_array($req))
     {
         $tmp["name"]=$cur["name"];
-        $tmp["id_student"]=$cur["id_student"];
+        $tmp["jour"]=$cur["jour"];
+
         
         array_push($response["lst"],$tmp);
     }
